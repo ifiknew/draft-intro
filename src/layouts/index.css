@@ -6,12 +6,11 @@
 
 .title {
   font-size: 2rem;
-  font-weight: normal;
+  font-weight: 600;
   letter-spacing: -1px;
   background: #f44336c2;
   padding: 1rem 2rem;
   color: white;
   margin: 0;
-
-
+  box-shadow: 2px 2px 15px 2px #ff877ecc
 }

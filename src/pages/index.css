@@ -5,21 +5,19 @@
   text-align: center;
 }
 
-.welcome {
-  height: 328px;
-  background: url(../assets/yay.jpg) no-repeat center 0;
-  background-size: 388px 328px;
+.body {
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.12);
 }
-
-.list {
-  font-size: 1.2em;
-  margin-top: 1.8em;
-  list-style: none;
-  line-height: 1.5em;
+.body > div:first-child {
+  box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.38);
+  transition: all .1s ease-in-out;
 }
-
-.list code {
-  background: #f7f7f7;
+.body > div:first-child:hover {
+  transform-origin: center;
 }
 .itemGroup {
   display: flex;
@@ -29,13 +27,13 @@
   padding: 1rem;
   z-index: 100;
   font-size: 1.5rem;
-  transition: all .3s ease-in-out;
 }
 .itemGroup i {
+  transition: all .1s ease-in-out;
   margin-right: 1.5rem;
   cursor: pointer;
 }
 .itemGroup i:hover {
-  transform: scale(1.2);
+  transform: scale(1.25);
   transform-origin: center;
 }

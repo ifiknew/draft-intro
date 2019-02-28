@@ -36,7 +36,7 @@ class Index extends React.Component {
         const image = new Image()
         image.onload = () => {
           this.handleDelete()
-          this.canvas.ctx.drawing.drawImage(image, 0, 0, image.width, image.height)
+          this.canvas.ctx.drawing.drawImage(image, 0, 0, 300, 300)
         }
         image.src = (e.target as any).result
       }
@@ -54,16 +54,17 @@ class Index extends React.Component {
   }
 
   getData = () => {
-    const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, window.innerWidth, window.innerHeight - 80)
+    const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, 300, 300)
     console.log(data)
   }
   render = () => {
     return (
-      <div key={this.state.key}>
+      <div className={styles.body}>
         <CanvasDraw
-          canvasWidth={window.innerWidth}
-          canvasHeight={window.innerHeight - 80}
-          brushRadius={2}
+          canvasWidth={300}
+          canvasHeight={300}
+          brushRadius={1}
+          lazyRadius={10}
           brushColor="#000"
           ref={this.getRef}
         />
