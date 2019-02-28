@@ -21,3 +21,21 @@
 .list code {
   background: #f7f7f7;
 }
+.itemGroup {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 1rem;
+  z-index: 100;
+  font-size: 1.5rem;
+  transition: all .3s ease-in-out;
+}
+.itemGroup i {
+  margin-right: 1.5rem;
+  cursor: pointer;
+}
+.itemGroup i:hover {
+  transform: scale(1.2);
+  transform-origin: center;
+}
