@@ -6,19 +6,40 @@
 }
 
 .body {
-  height: calc(100vh - 80px);
+  height: calc(100vh - 68px);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   background-color: rgba(0, 0, 0, 0.12);
+  padding: 0 4rem;
 }
-.body > div:first-child {
+
+.canvas {
+  margin-right: 6rem;
+}
+
+.canvas,
+.predictionGroup > div {
   box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.38);
-  transition: all .1s ease-in-out;
 }
-.body > div:first-child:hover {
-  transform-origin: center;
+
+.predictionGroup {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
 }
+
+.predictionGroup > div {
+  width: 100%;
+  margin: 1rem;
+  box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.38);
+  height: 12rem;
+  background: #fff;
+  border-radius: 1rem;
+}
+
 .itemGroup {
   display: flex;
   position: fixed;
