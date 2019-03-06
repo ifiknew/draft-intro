@@ -2,32 +2,15 @@ import React from 'react';
 import CanvasDraw from "react-canvas-draw"
 import styles from './index.css';
 import { Icon } from 'antd'
-import * as tf from '@tensorflow/tfjs';
-import { parse } from "tfjs-npy"
 const EDGE = 299
 class Index extends React.Component {
   state = {
     imageSrc: null,
     key: new Date().valueOf(),
-    model: null as tf.Model,
-    outTensor: null as tf.Tensor,
     imgs: []
   }
   canvas: any = null
 
-  async componentDidMount() {
-    const tfm = await tf.loadLayersModel('http://localhost:12336/static/sketch_branch4/model.json',{ strict:false})
-    tfm.summary()
-    this.setState({
-      model: tfm
-    })
-    const out = require('../assets/output4.npy')
-    const outf = await fetch(out).then(res => res.arrayBuffer())
-    this.setState({
-      outTensor: parse(outf)
-    })
-
-  }
   handleDelete = () => {
     this.canvas.clear()
     this.canvas.ctx.drawing.fillStyle = '#fff'
@@ -75,7 +58,7 @@ class Index extends React.Component {
   }
 
   getData = async () => {
-    if (this.canvas == null || this.state.model == null) { return }
+    if (this.canvas == null) { return }
     const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, EDGE, EDGE)
     fetch('http://114.212.244.58:9999', {
       method: 'POST',
@@ -89,12 +72,7 @@ class Index extends React.Component {
   render = () => {
     return (
       <div className={styles.body}>
-        {!this.state.model ? (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Icon type="loading" style={{ marginRight: '.5rem', fontSize: '1rem' }}/>
-            <div>正在加载模型文件</div>
-          </div>
-        ) : (
+
           <React.Fragment>
             <div className={styles.canvas}>
               <CanvasDraw
@@ -121,7 +99,6 @@ class Index extends React.Component {
               <Icon type="search" onClick={this.getData} />
             </div>
           </React.Fragment>
-        )}
 
       </div>
     )

@@ -9,18 +9,13 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^0.15.3",
     "antd": "^3.12.1",
     "dva": "^2.5.0-beta.2",
     "express": "^4.16.4",
     "file-loader": "^3.0.1",
-    "keras-js": "^1.0.3",
-    "ndarray": "^1.0.18",
-    "ndarray-ops": "^1.2.2",
     "react": "^16.7.0",
     "react-canvas-draw": "^1.0.0",
     "react-dom": "^16.7.0",
-    "tfjs-npy": "^0.0.3",
     "url-loader": "^1.1.2"
   },
   "devDependencies": {
