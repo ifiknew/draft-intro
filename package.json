@@ -20,6 +20,7 @@
     "react": "^16.7.0",
     "react-canvas-draw": "^1.0.0",
     "react-dom": "^16.7.0",
+    "tfjs-npy": "^0.0.3",
     "url-loader": "^1.1.2"
   },
   "devDependencies": {

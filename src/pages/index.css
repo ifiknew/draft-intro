@@ -18,8 +18,7 @@
   margin-right: 6rem;
 }
 
-.canvas,
-.predictionGroup > div {
+.canvas {
   box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.38);
 }
 
@@ -34,10 +33,26 @@
 .predictionGroup > div {
   width: 100%;
   margin: 1rem;
-  box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.38);
+
   height: 12rem;
-  background: #fff;
   border-radius: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+}
+
+.predictionGroup > div img {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  box-shadow: 1px 4px 20px 0px rgba(0, 0, 0, 0.38);
+  transition: all .3s;
+  transform-origin: center;
+}
+.predictionGroup > div img:hover {
+  transform: scale(1.5);
+  
 }
 
 .itemGroup {

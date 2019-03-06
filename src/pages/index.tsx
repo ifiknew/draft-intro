@@ -3,25 +3,35 @@ import CanvasDraw from "react-canvas-draw"
 import styles from './index.css';
 import { Icon } from 'antd'
 import * as tf from '@tensorflow/tfjs';
-
+import { parse } from "tfjs-npy"
 const EDGE = 299
-const MAX = 255
 class Index extends React.Component {
   state = {
     imageSrc: null,
     key: new Date().valueOf(),
-    model: null as tf.Model
+    model: null as tf.Model,
+    outTensor: null as tf.Tensor,
+    imgs: []
   }
   canvas: any = null
 
   async componentDidMount() {
-    const tfm = await tf.loadLayersModel('http://localhost:12336/static/model/model.json')
+    const tfm = await tf.loadLayersModel('http://localhost:12336/static/sketch_branch4/model.json',{ strict:false})
+    tfm.summary()
     this.setState({
       model: tfm
     })
+    const out = require('../assets/output4.npy')
+    const outf = await fetch(out).then(res => res.arrayBuffer())
+    this.setState({
+      outTensor: parse(outf)
+    })
+
   }
   handleDelete = () => {
     this.canvas.clear()
+    this.canvas.ctx.drawing.fillStyle = '#fff'
+    this.canvas.ctx.drawing.fillRect(0, 0, EDGE, EDGE)
   }
 
   handleUndo = () => {
@@ -53,29 +63,27 @@ class Index extends React.Component {
   }
 
   getRef = (canvas) => {
-    this.canvas = canvas
+    if (this.canvas != canvas) {
+      this.canvas = canvas
+      setTimeout(() => {
+        this.canvas.ctx.drawing.fillStyle = '#fff'
+        this.canvas.ctx.drawing.fillRect(0, 0, EDGE, EDGE)
+      }, 1000)
+    }
+
+
   }
 
   getData = async () => {
     if (this.canvas == null || this.state.model == null) { return }
     const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, EDGE, EDGE)
-    const matrix = Array(EDGE).fill(Array(EDGE).fill([0, 0, 0]))
-    matrix.forEach((row, rowIndex) => {
-      row.forEach((pixel: Array<number>, columnIndex: number) => {
-        const beginIndex = (rowIndex * EDGE + columnIndex) * 4
-        row[columnIndex] = pixel.map((_, index) => data.data[beginIndex + index] / MAX)
-      })
+    fetch('http://114.212.244.58:9999', {
+      method: 'POST',
+      body: JSON.stringify(Array.from(data.data.filter((_,index) => index % 4 != 3)))
+    }).then(res => res.text()).then(text => {
+      const imgs = text.replace('{"data": ', '').replace('}', '').split(',').slice(0,10)
+      this.setState({ imgs })
     })
-    console.log(matrix)
-    const [result] = await (this.state.model.predict(tf.tensor([matrix])) as any).array()
-    console.log(result
-      .map((v, index) => ({
-        index,
-        value: v
-      }))
-      .sort((a,b) => b.value - a.value)
-      .slice(0, 5)
-    )
   }
 
   render = () => {
@@ -99,9 +107,12 @@ class Index extends React.Component {
               />
             </div>
             <div className={styles.predictionGroup}>
-              <div></div>
-              <div></div>
-              <div></div>
+              <div>
+                {this.state.imgs.slice(0,5).map(v => <img src={`http://localhost:12336/static/photo/${v}`} key={v} />)}
+              </div>
+              <div>
+                {this.state.imgs.slice(5,10).map(v => <img src={`http://localhost:12336/static/photo/${v}`} key={v} />)}
+              </div>
             </div>
             <div className={styles.itemGroup}>
               <Icon type="delete" onClick={this.handleDelete} />
