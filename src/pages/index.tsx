@@ -60,7 +60,7 @@ class Index extends React.Component {
   getData = async () => {
     if (this.canvas == null) { return }
     const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, EDGE, EDGE)
-    fetch('http://localhost:9999', {
+    fetch('http://218.94.159.108:12345', {
       method: 'POST',
       body: JSON.stringify(Array.from(data.data.filter((_,index) => index % 4 != 3)))
     }).then(res => res.text()).then(text => {
@@ -86,10 +86,10 @@ class Index extends React.Component {
             </div>
             <div className={styles.predictionGroup}>
               <div>
-                {this.state.imgs.slice(0,5).map(v => <img src={`http://localhost:12336/static/photo/${v}`} key={v} />)}
+                {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:12336/static/photo/${v}`} key={v} />)}
               </div>
               <div>
-                {this.state.imgs.slice(5,10).map(v => <img src={`http://localhost:12336/static/photo/${v}`} key={v} />)}
+                {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:12336/static/photo/${v}`} key={v} />)}
               </div>
             </div>
             <div className={styles.itemGroup}>
