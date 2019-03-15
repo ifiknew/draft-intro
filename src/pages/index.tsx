@@ -60,7 +60,7 @@ class Index extends React.Component {
   getData = async () => {
     if (this.canvas == null) { return }
     const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, EDGE, EDGE)
-    fetch('http://114.212.244.58:9999', {
+    fetch('http://localhost:9999', {
       method: 'POST',
       body: JSON.stringify(Array.from(data.data.filter((_,index) => index % 4 != 3)))
     }).then(res => res.text()).then(text => {

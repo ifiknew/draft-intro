@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "service": "node src/server",
     "start": "umi dev",
     "build": "umi build",
     "test": "umi test",
