@@ -8,7 +8,7 @@ class Index extends React.Component {
     imageSrc: null,
     key: new Date().valueOf(),
     imgs: [],
-    showModal: false
+    loading: false
   }
   canvas: any = null
 
@@ -67,12 +67,15 @@ class Index extends React.Component {
   }
 
   getRef = (canvas) => {
-    if (this.canvas != canvas && canvas.ctx) {
+    if (this.canvas != canvas) {
       this.canvas = canvas
       setTimeout(() => {
-        this.canvas.ctx.drawing.fillStyle = '#fff'
-        this.canvas.ctx.drawing.fillRect(0, 0, EDGE, EDGE)
-      }, 3000)
+        try {
+          this.canvas.ctx.drawing.fillStyle = '#fff'
+          this.canvas.ctx.drawing.fillRect(0, 0, EDGE, EDGE)
+        } catch (e) {
+        }
+      }, 1000)
     }
 
 
@@ -81,20 +84,32 @@ class Index extends React.Component {
   getData = async () => {
     if (this.canvas == null) { return }
     const data: ImageData = this.canvas.ctx.drawing.getImageData(0,0, EDGE, EDGE)
+    this.setState({ loading: true })
     fetch('http://218.94.159.108:12345', {
       method: 'POST',
       body: JSON.stringify(Array.from(data.data.filter((_,index) => index % 4 != 3)))
     }).then(res => res.text()).then(text => {
       const imgs = text.replace('{"data": ', '').replace('}', '').split(',').slice(0,10)
-      this.setState({ imgs })
+      this.setState({ imgs, loading: false })
     })
   }
 
   render = () => {
     return (
+      <>
+        <div className={styles.modal}>
+          {Array(14).fill(0).map((_, index) => (
+            <Tooltip title="select me and click search button to see the result">
+              <img 
+                src={`http://218.94.159.108:16778/static/example/${index + 1}.png`} 
+                onClick={this.handleSelectImg.bind(this, `http://218.94.159.108:16778/static/example/${index + 1}.png`)}
+              />
+            </Tooltip>
+          ))}
+        </div>
       <div className={styles.body}>
-
           <React.Fragment>
+
             <div className={styles.canvas}>
               <CanvasDraw
                 canvasWidth={EDGE}
@@ -109,25 +124,26 @@ class Index extends React.Component {
               {this.state.imgs.length > 0 ? (
                 <>
                   <div>
-                    <div>re-rank result</div>
+                    <div style={{ fontSize: 16, width: 150 }}>re-rank result</div>
                     {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
                   </div>
                   <div>
-                    <div>single modal result</div>
+                    <div style={{ fontSize: 16, width: 150 }}>single model result</div>
                     {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
                   </div>
                 </>
               ) : (
-                <div style={{ fontSize: 16 }}>please draw a sketch or update one by tools from left-bottom.</div>
+                <div style={{ fontSize: 20 }}>
+                  {this.state.loading ? 
+                    <span><Icon type="loading" style={{ marginRight: 20 }}/>loading result, please wait...</span>
+                  : 'please select an image, or draw a sketch, or upload one by tools from left-bottom'}
+                </div>
               )}
 
             </div>
             <div className={styles.itemGroup}>
               <Tooltip title="clear" >
                 <Icon type="delete" onClick={this.handleDelete} />
-              </Tooltip>
-              <Tooltip title="select from server image" >
-                <Icon type="select" onClick={this.handleSelect.bind(this, true)} />
               </Tooltip>
               <Tooltip title="upload an image" >
                 <Icon type="file" onClick={this.handleUpload}/>
@@ -137,26 +153,8 @@ class Index extends React.Component {
               </Tooltip>
             </div>
           </React.Fragment>
-          {this.state.showModal && (
-            <Modal
-              title="Click to select"
-              visible={true}
-              width='80vw'
-              footer={null}
-              maskClosable={true}
-              onCancel={this.handleSelect.bind(this, false)}
-            >
-              <div className={styles.modal}>
-                {Array(14).fill(0).map((_, index) => (
-                  <img 
-                    src={`http://218.94.159.108:16778/static/example/${index + 1}.png`} 
-                    onClick={this.handleSelectImg.bind(this, `http://218.94.159.108:16778/static/example/${index + 1}.png`)}
-                  />
-                ))}
-              </div>
-            </Modal>
-          )}
       </div>
+      </>
     )
   }
 }
