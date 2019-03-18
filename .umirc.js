@@ -22,4 +22,5 @@ export default {
       },
     }],
   ],
+  publicPath: '/fgh/draftsearch'
 }
