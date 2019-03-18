@@ -2,7 +2,6 @@ import React from 'react';
 import CanvasDraw from "react-canvas-draw"
 import styles from './index.css';
 import { Icon, Modal, Tooltip } from 'antd'
-import { images } from './util';
 const EDGE = 299
 class Index extends React.Component {
   state = {
@@ -108,10 +107,10 @@ class Index extends React.Component {
             </div>
             <div className={styles.predictionGroup}>
               <div>
-                {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:12336/static/photo/${v}`} key={v} />)}
+                {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
               </div>
               <div>
-                {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:12336/static/photo/${v}`} key={v} />)}
+                {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
               </div>
             </div>
             <div className={styles.itemGroup}>
@@ -141,8 +140,8 @@ class Index extends React.Component {
               <div className={styles.modal}>
                 {Array(14).fill(0).map((_, index) => (
                   <img 
-                    src={`http://218.94.159.108:12336/static/example/${index + 1}.png`} 
-                    onClick={this.handleSelectImg.bind(this, `http://218.94.159.108:12336/static/example/${index + 1}.png`)}
+                    src={`http://218.94.159.108:16778/static/example/${index + 1}.png`} 
+                    onClick={this.handleSelectImg.bind(this, `http://218.94.159.108:16778/static/example/${index + 1}.png`)}
                   />
                 ))}
               </div>

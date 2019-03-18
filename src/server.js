@@ -12,5 +12,5 @@ app.use(function(req, res, next) {
   next();
 });
 app.use('/static', express.static(path.join(__dirname, 'assets')))
-
-app.listen('12336', console.log)
+app.use('/', express.static(path.join(__dirname, '..', 'dist')))
+app.listen('16778', console.log)
