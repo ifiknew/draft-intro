@@ -22,5 +22,6 @@ export default {
       },
     }],
   ],
-  publicPath: 'http://software.nju.edu.cn/fgh/draftsearch/'
+  publicPath: 'http://software.nju.edu.cn/fgh/draftsearch/',
+  base: '/fgh/draftsearch/'
 }
