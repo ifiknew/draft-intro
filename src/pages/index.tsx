@@ -106,12 +106,21 @@ class Index extends React.Component {
               />
             </div>
             <div className={styles.predictionGroup}>
-              <div>
-                {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
-              </div>
-              <div>
-                {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
-              </div>
+              {this.state.imgs.length > 0 ? (
+                <>
+                  <div>
+                    <div>re-rank result</div>
+                    {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
+                  </div>
+                  <div>
+                    <div>single modal result</div>
+                    {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
+                  </div>
+                </>
+              ) : (
+                <div style={{ fontSize: 16 }}>please draw a sketch or update one by tools from left-bottom.</div>
+              )}
+
             </div>
             <div className={styles.itemGroup}>
               <Tooltip title="clear" >
