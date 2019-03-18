@@ -73,3 +73,22 @@
   transform: scale(1.25);
   transform-origin: center;
 }
+.modal {
+  display: flex;
+  max-height: 80vh;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+.modal img {
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 3px dashed transparent;
+  transition: all .3s;
+}
+
+.modal img:hover {
+  border: 3px dashed #f44336c2
+}

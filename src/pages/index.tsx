@@ -1,13 +1,15 @@
 import React from 'react';
 import CanvasDraw from "react-canvas-draw"
 import styles from './index.css';
-import { Icon } from 'antd'
+import { Icon, Modal } from 'antd'
+import { images } from './util';
 const EDGE = 299
 class Index extends React.Component {
   state = {
     imageSrc: null,
     key: new Date().valueOf(),
-    imgs: []
+    imgs: [],
+    showModal: false
   }
   canvas: any = null
 
@@ -17,8 +19,28 @@ class Index extends React.Component {
     this.canvas.ctx.drawing.fillRect(0, 0, EDGE, EDGE)
   }
 
-  handleUndo = () => {
-    this.canvas.undo()
+  handleSelect = (show = true) => {
+    this.setState({ showModal: show })
+  }
+
+  handleSelectImg = async (url) => {
+    const blob = await fetch(url).then(res => res.blob())
+
+    const fr = new FileReader()
+    fr.onload = (e) => {
+      const result = (e.target as any).result
+      const image = new Image()
+      image.src = result
+      image.style.display = "none"
+      image.onload = () => {
+        this.canvas.ctx.drawing.drawImage(image, 0, 0, EDGE, EDGE)
+        document.body.removeChild(image)
+        this.setState({ showModal: false })
+      }
+      document.body.appendChild(image)
+    }
+    fr.readAsDataURL(blob)
+
   }
 
   handleUpload = () => {
@@ -46,12 +68,12 @@ class Index extends React.Component {
   }
 
   getRef = (canvas) => {
-    if (this.canvas != canvas) {
+    if (this.canvas != canvas && canvas.ctx) {
       this.canvas = canvas
       setTimeout(() => {
         this.canvas.ctx.drawing.fillStyle = '#fff'
         this.canvas.ctx.drawing.fillRect(0, 0, EDGE, EDGE)
-      }, 1000)
+      }, 3000)
     }
 
 
@@ -94,12 +116,30 @@ class Index extends React.Component {
             </div>
             <div className={styles.itemGroup}>
               <Icon type="delete" onClick={this.handleDelete} />
-              <Icon type="undo" onClick={this.handleUndo} />
+              <Icon type="select" onClick={this.handleSelect.bind(this, true)} />
               <Icon type="file" onClick={this.handleUpload}/>
               <Icon type="search" onClick={this.getData} />
             </div>
           </React.Fragment>
-
+          {this.state.showModal && (
+            <Modal
+              title="Click to select"
+              visible={true}
+              width='80vw'
+              footer={null}
+              maskClosable={true}
+              onCancel={this.handleSelect.bind(this, false)}
+            >
+              <div className={styles.modal}>
+                {Array(14).fill(0).map((_, index) => (
+                  <img 
+                    src={`http://218.94.159.108:12336/static/example/${index + 1}.png`} 
+                    onClick={this.handleSelectImg.bind(this, `http://218.94.159.108:12336/static/example/${index + 1}.png`)}
+                  />
+                ))}
+              </div>
+            </Modal>
+          )}
       </div>
     )
   }
