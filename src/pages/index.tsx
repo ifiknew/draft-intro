@@ -1,7 +1,7 @@
 import React from 'react';
 import CanvasDraw from "react-canvas-draw"
 import styles from './index.css';
-import { Icon, Modal } from 'antd'
+import { Icon, Modal, Tooltip } from 'antd'
 import { images } from './util';
 const EDGE = 299
 class Index extends React.Component {
@@ -115,10 +115,18 @@ class Index extends React.Component {
               </div>
             </div>
             <div className={styles.itemGroup}>
-              <Icon type="delete" onClick={this.handleDelete} />
-              <Icon type="select" onClick={this.handleSelect.bind(this, true)} />
-              <Icon type="file" onClick={this.handleUpload}/>
-              <Icon type="search" onClick={this.getData} />
+              <Tooltip title="clear" >
+                <Icon type="delete" onClick={this.handleDelete} />
+              </Tooltip>
+              <Tooltip title="select from server image" >
+                <Icon type="select" onClick={this.handleSelect.bind(this, true)} />
+              </Tooltip>
+              <Tooltip title="upload an image" >
+                <Icon type="file" onClick={this.handleUpload}/>
+              </Tooltip>
+              <Tooltip title="begin to search" >
+                <Icon type="search" onClick={this.getData} />
+              </Tooltip>
             </div>
           </React.Fragment>
           {this.state.showModal && (
