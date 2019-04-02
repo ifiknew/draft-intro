@@ -124,11 +124,11 @@ class Index extends React.Component {
               {this.state.imgs.length > 0 ? (
                 <>
                   <div>
-                    <div style={{ fontSize: 16, width: 150 }}>re-rank result</div>
+                    <div style={{ fontSize: 16, width: 180 }}>retrieval results with ensemble<br/>（three models）</div>
                     {this.state.imgs.slice(0,5).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
                   </div>
                   <div>
-                    <div style={{ fontSize: 16, width: 150 }}>single model result</div>
+                    <div style={{ fontSize: 16, width: 180 }}>retrieval results without ensemble<br/>（single model）</div>
                     {this.state.imgs.slice(5,10).map(v => <img src={`http://218.94.159.108:16778/static/photo/${v}`} key={v} />)}
                   </div>
                 </>
@@ -145,7 +145,7 @@ class Index extends React.Component {
               <Tooltip title="clear" >
                 <Icon type="delete" onClick={this.handleDelete} />
               </Tooltip>
-              <Tooltip title="upload an image" >
+              <Tooltip title="upload a sketch" >
                 <Icon type="file" onClick={this.handleUpload}/>
               </Tooltip>
               <Tooltip title="begin to search" >

@@ -11,7 +11,7 @@ export interface BasicLayoutProps extends React.Props<any> {
 const BasicLayout: BasicLayoutComponent<BasicLayoutProps> = props => {
   return (
     <div className={styles.normal}>
-      <h1 className={styles.title}>Draft Search</h1>
+      <h1 className={styles.title}>Quadruplet Loss based Ensemble Deep Neural Network for Sketch based Image Retrieval</h1>
       {props.children}
     </div>
   );
